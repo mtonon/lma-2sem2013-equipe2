@@ -26,5 +26,11 @@
 	<definition extends="default" name="sobre">
 		<put-attribute name="body" value="/WEB-INF/views/sobre.jsp" />
 	</definition>
+	
+	<!--  Modificacoes -->
+	
+	<definition extends="default" name="listaPresenca">
+		<put-attribute name="body" value="/WEB-INF/views/listaPresenca.jsp" />
+	</definition>
 
 </tiles-definitions>

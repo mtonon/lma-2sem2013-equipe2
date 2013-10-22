@@ -19,6 +19,7 @@ public class ConfigStartup implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
 		ObjectifyService.register(Mercadoria.class);
+		//TODO Adicionar codigo para todas as entidades que iremos utilizar
 	}
 	
 	@Override

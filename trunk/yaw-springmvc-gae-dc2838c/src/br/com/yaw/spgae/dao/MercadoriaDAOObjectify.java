@@ -53,5 +53,4 @@ public class MercadoriaDAOObjectify implements Serializable, MercadoriaDAO {
 		Key<Mercadoria> k = Key.create(Mercadoria.class, id);
 		return ofy().load().key(k).get();
 	}
-	
 }

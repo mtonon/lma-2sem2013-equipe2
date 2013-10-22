@@ -190,4 +190,12 @@ public class MercadoriaController {
 				new CustomNumberEditor(Double.class, NumberFormat.getInstance(new Locale("pt","BR")), true));
 	}
 
+	
+	//-------------------------- Modificado -----------------------------
+	
+	@RequestMapping(value = "listaPresenca", method = RequestMethod.GET)
+	public String chamda(Model uiModel) {
+		return "listaPresenca";
+	}
+	
 }
