@@ -191,10 +191,12 @@ public class MercadoriaController {
 	}
 
 	
-	//-------------------------- Modificado -----------------------------
+	//-------------------------- Modificado ----------------------------
+	// Rafael - 23/10/2013
 	
 	@RequestMapping(value = "listaPresenca", method = RequestMethod.GET)
-	public String chamda(Model uiModel) {
+	public String chamada(Model uiModel) {
+		uiModel.addAttribute("active", "lista_presenca");
 		return "listaPresenca";
 	}
 	

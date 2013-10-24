@@ -15,6 +15,15 @@
 		<li class="${active == 'incluir' ? 'active' : ''}">
 			<a href="/?form">${menu_incluir}</a>
         </li>
+        
+        <%-- Modificado - Rafael - 23/10/2013 --%>
+		<li class="divider"></li>
+		<li><em>Chamada</em></li>
+		<li class="${active == 'lista_presenca' ? 'active' : ''}">
+			<a href="/listaPresenca">Lista de Presenca</a>
+		</li>
+		<%-- Modificado - Rafael - 23/10/2013 --%>
+        
 		<li class="divider"></li>
 		<li class="${active == 'sobre' ? 'active' : ''}">
 			<a href="/sobre">${menu_sobre}</a>
