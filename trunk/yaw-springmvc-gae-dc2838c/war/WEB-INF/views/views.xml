@@ -32,5 +32,9 @@
 	<definition extends="default" name="listaPresenca">
 		<put-attribute name="body" value="/WEB-INF/views/listaPresenca.jsp" />
 	</definition>
+	
+	<definition extends="default" name="listaAlunos">
+		<put-attribute name="body" value="/WEB-INF/views/listaAlunos.jsp" />
+	</definition>
 
 </tiles-definitions>

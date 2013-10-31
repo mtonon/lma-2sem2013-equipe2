@@ -5,11 +5,14 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import br.com.yaw.spgae.model.Aluno;
 import br.com.yaw.spgae.model.Mercadoria;
 
 import com.googlecode.objectify.Key;
 
+@Repository
 public class AlunoDAOObjectify implements Serializable, AlunoDAO {
 
 	@Override

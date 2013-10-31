@@ -189,15 +189,4 @@ public class MercadoriaController {
 		binder.registerCustomEditor(Double.class, 
 				new CustomNumberEditor(Double.class, NumberFormat.getInstance(new Locale("pt","BR")), true));
 	}
-
-	
-	//-------------------------- Modificado ----------------------------
-	// Rafael - 23/10/2013
-	
-	@RequestMapping(value = "listaPresenca", method = RequestMethod.GET)
-	public String chamada(Model uiModel) {
-		uiModel.addAttribute("active", "lista_presenca");
-		return "listaPresenca";
-	}
-	
 }

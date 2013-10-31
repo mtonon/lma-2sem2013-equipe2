@@ -1,6 +1,12 @@
 <%-- Fragmento com trecho utilizado no rodape das paginas. --%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div id="footer">
+	<spring:url var="banner" value="/resources/img/creditos.png" />
+	<div class="logo" style="width:900px">
+		<img src="${banner}" />
+	</div>
+	
+<%--	
 	<spring:message code="label.detalhes.projeto" var="label_detalhes_projeto" htmlEscape="false" />
 	<spring:message code="label.yaw" var="label_yaw" htmlEscape="false" />
 	<spring:message code="label.saiba.mais" var="label_saiba_mais" htmlEscape="false" />
@@ -11,4 +17,6 @@
     	(<a href="http://www.yaw.com.br/open/projetos/springmvc-gae/" title="${label_saiba_mais}" target="open">${label_saiba_mais}</a>)
     	</small>
     </div>
+--%>
+
 </div>

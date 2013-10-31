@@ -16,13 +16,19 @@
 			<a href="/?form">${menu_incluir}</a>
         </li>
         
-        <%-- Modificado - Rafael - 23/10/2013 --%>
+        <%-- Modificado - Rafael --%>
+        
 		<li class="divider"></li>
-		<li><em>Chamada</em></li>
+		<li><em>Projeto01</em></li>
 		<li class="${active == 'lista_presenca' ? 'active' : ''}">
 			<a href="/listaPresenca">Lista de Presenca</a>
 		</li>
-		<%-- Modificado - Rafael - 23/10/2013 --%>
+		
+		<li class="${active == 'lista_alunos' ? 'active' : ''}">
+			<a href="/listaAlunos">Lista de Alunos</a>
+		</li>
+		
+		<%-- Modificado - Rafael --%>
         
 		<li class="divider"></li>
 		<li class="${active == 'sobre' ? 'active' : ''}">
