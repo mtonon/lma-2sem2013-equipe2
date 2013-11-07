@@ -1,89 +1,44 @@
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Lista de presença</title>
+<%-- Pagina principal da aplicacao, a listagem de mercadorias. --%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<div>
 
-<link id="bs-css" href="/r/charisma/css/bootstrap-classic.css"
-	rel="stylesheet">
-<link
-	href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css"
-	rel="stylesheet">
-<link
-	href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
-	rel="stylesheet">
+	<div style="border-bottom: 1px solid #E5E5E5;">
+		<h3>
+			Presença dos Alunos <small> Listagem</small>
+		</h3>
+	</div>
 
+	<form:form id="atualizarPresenca" method="post"
+		action="listaAlunosSalvarPresenca">
+		<div class="control-group">
+			<fiv calss="controls">
 
-</head>
-<body>
-<p>Equipe 2 Digglet:</p>
-<img src="http://guidesarchive.ign.com/guides/12045/images/diglett.gif" alt="google.com" width="104" height="142">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Nome</th>
+						<th>31/11/2013</th>
+					</tr>
+				</thead>
+				<c:forEach items="${alunos}" var="a">
+					<tr>
+						<td>${a.id}</td>
+						<td><spring:url value="/${a.id}" var="edit_url"
+								htmlEscape="true">
+								<spring:param name="listaAlunos"></spring:param>
+							</spring:url> <a href="${edit_url}" title="Editar ${a.nome}">${a.nome}</a></td>
+						<td><input type="checkbox" name="presente" value="${a.id}"
+							${a.nome == 'Rafael' ? 'checked' : ''}></td>
+					</tr>
+				</c:forEach>
+			</table>
 
-	<h1>Lista de Presença</h1>
-	<table class="table">
-		<tr>
-			<td>Aluno</td>
-			<td>07/10</td>
-			<td>09/10</td>
-			<td>21/10</td>
-		</tr>
-		<tr>
-			<td>Daniel</td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			
-			
-		</tr>
-		<tr>
-			<td>Luis</td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-		</tr>
-		<tr>
-			<td>Marcela</td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-		</tr>
-		<tr>
-			<td>Patrícia</td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-		</tr>
-		<tr>
-			<td>Rafael</td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-		</tr>
-		<tr>
-			<td>Renata</td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-		</tr>
-		<tr>
-			<td>Ya Chi</td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-		</tr>
-		<tr>
-			<td>DOIDOOO</td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-			<td><input type="checkbox"></td>
-		</tr>
-	</table>
-
-<form action="">
-<input type="button" value="Adicionar Data">
-</form>
-<form action="">
-<input type="button" value="Excluir">
-</form>
-
-</body>
-</html>
+			<button id="salvarPresenca" class="btn btn-success">Salvar</button>
+		</div>
+</div>
+</form:form>
+</div>

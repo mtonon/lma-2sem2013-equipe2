@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import br.com.yaw.spgae.model.Aluno;
-import br.com.yaw.spgae.model.Mercadoria;
 
 import com.googlecode.objectify.Key;
 

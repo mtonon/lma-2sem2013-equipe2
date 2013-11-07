@@ -2,7 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div id="footer">
 	<spring:url var="banner" value="/resources/img/creditos.png" />
-	<div class="logo" style="width:900px">
+	<br>
+	
+	<div class="logo" align="left" style="width:900px">
 		<img src="${banner}" />
 	</div>
 	
