@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 
@@ -49,5 +50,9 @@ public class Aluno implements Serializable{
 
 	public void setRa(int ra) {
 		this.ra = ra;
+	}
+	
+	public Key<Aluno> getKey() {
+		return Key.create(Aluno.class, id);
 	}
 }

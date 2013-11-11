@@ -14,31 +14,28 @@
 	<form:form id="atualizarPresenca" method="post"
 		action="listaAlunosSalvarPresenca">
 		<div class="control-group">
-			<fiv calss="controls">
+			<div calss="controls">
 
 			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th>#</th>
 						<th>Nome</th>
-						<th>31/11/2013</th>
+						<th>11/11/2013</th>
 					</tr>
 				</thead>
 				<c:forEach items="${alunos}" var="a">
 					<tr>
 						<td>${a.id}</td>
-						<td><spring:url value="/${a.id}" var="edit_url"
-								htmlEscape="true">
+						<td><spring:url value="/${a.id}" var="edit_url" htmlEscape="true">
 								<spring:param name="listaAlunos"></spring:param>
-							</spring:url> <a href="${edit_url}" title="Editar ${a.nome}">${a.nome}</a></td>
-						<td><input type="checkbox" name="presente" value="${a.id}"
-							${a.nome == 'Rafael' ? 'checked' : ''}></td>
+							</spring:url> 
+							<a href="${edit_url}" title="Editar ${a.nome}">${a.nome}</a></td>
+						<td><input type="checkbox" name="presente" value="${a.id}" ${a.id == 'Rafael' ? 'checked' : ''}></td>
 					</tr>
 				</c:forEach>
 			</table>
-
 			<button id="salvarPresenca" class="btn btn-success">Salvar</button>
-		</div>
-</div>
-</form:form>
+		 </div>
+	</form:form>
 </div>
