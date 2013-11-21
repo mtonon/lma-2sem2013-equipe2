@@ -19,7 +19,13 @@
         <%-- Modificado - Rafael --%>
         
 		<li class="divider"></li>
+		
 		<li><em>Projeto01</em></li>
+		
+		<li class="${active == 'form_uc' ? 'active' : ''}">
+			<a href="/formUC">Criar UC</a>
+		</li>
+		
 		<li class="${active == 'lista_presenca' ? 'active' : ''}">
 			<a href="/listaPresenca">Lista de Presenca</a>
 		</li>

@@ -27,7 +27,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/sobre.jsp" />
 	</definition>
 	
-	<!-- Modificado - Rafael - 23/10/2013 -->
+	<!-- Modificado -->
 	
 	<definition extends="default" name="listaPresenca">
 		<put-attribute name="body" value="/WEB-INF/views/listaPresenca.jsp" />
@@ -35,6 +35,10 @@
 	
 	<definition extends="default" name="listaAlunos">
 		<put-attribute name="body" value="/WEB-INF/views/listaAlunos.jsp" />
+	</definition>
+	
+	<definition extends="default" name="formUC">
+		<put-attribute name="body" value="/WEB-INF/views/formUC.jsp" />
 	</definition>
 
 </tiles-definitions>

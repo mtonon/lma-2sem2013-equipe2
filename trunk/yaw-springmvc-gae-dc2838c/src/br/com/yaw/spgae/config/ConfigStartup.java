@@ -8,9 +8,11 @@ import javax.servlet.ServletContextListener;
 
 import br.com.yaw.spgae.dao.AlunoDAOObjectify;
 import br.com.yaw.spgae.dao.AulaDAOObjectify;
+import br.com.yaw.spgae.dao.UCDAOObjectify;
 import br.com.yaw.spgae.model.Aluno;
 import br.com.yaw.spgae.model.Aula;
 import br.com.yaw.spgae.model.Mercadoria;
+import br.com.yaw.spgae.model.UC;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
@@ -29,52 +31,87 @@ public class ConfigStartup implements ServletContextListener {
 		ObjectifyService.register(Mercadoria.class);
 		ObjectifyService.register(Aluno.class);
 		ObjectifyService.register(Aula.class);
+		ObjectifyService.register(UC.class);
 		
-		/* Testes */
-		AlunoDAOObjectify persistidorAluno = new AlunoDAOObjectify();
-		AulaDAOObjectify persistidorAula = new AulaDAOObjectify();
-//
-//		Aluno aluno01 = new Aluno();
-//		aluno01.setNome("Aluno 01");
-//		aluno01.setRa(12345);
-//		aluno01.setId((long)1); 
-//		Aluno aluno02 = new Aluno();
-//		aluno02.setNome("Aluno 02");
-//		aluno02.setRa(12346);
-//		aluno02.setId((long)2);
-//		
-
-		/* Inserir aula */
-		
-//		Aula aula01 = new Aula();
-//		aula01.setData("11/11/2013");
-//		List<Key<Aluno>> alunosAux = new ArrayList<Key<Aluno>>();
-//		List<Aluno> todosAlunos = persistidorAluno.getAll();
-//		List<Aluno> alunosPresentes = new ArrayList<Aluno>();
-//		
-//		for(int i = 0; i < todosAlunos.size(); i++)
-//		{
-//			alunosAux.add(todosAlunos.get(i).getKey());
-//		}
-//		aula01.setIdTodosAlunos(alunosAux);
-//		
-//		alunosAux = new ArrayList<Key<Aluno>>();
-//		alunosAux.add(todosAlunos.get(1).getKey());
-//		alunosAux.add(todosAlunos.get(3).getKey());
-//		aula01.setIdAlunosPresentes(alunosAux);
-//
-//		System.out.println(persistidorAula.save(aula01));
-
-		/* Buscar e mostrar aula */
-		
-		List<Aula> aulas = persistidorAula.getAll();
-		for(int i = 0; i < aulas.size(); i++)
-		{
-			System.out.println(aulas.get(i));
-		}
+//		inserirAlunosParaTeste();
+//		inserirUCsParaTeste();
+//		inserirAulasParaTeste();
 	}
 	
+	private void inserirAlunosParaTeste()
+	{
+		AlunoDAOObjectify persistidorAluno = new AlunoDAOObjectify();
+		Aluno[] alunos = new Aluno[7];
+
+		for (int i = 0; i < alunos.length; i++) {
+			alunos[i] = new Aluno();
+			alunos[i].setRa( Integer.parseInt("" + (i+1) + (i+1) + (i+1) + (i+1) + (i+1) + (i+1)) );
+		}
+		
+		alunos[0].setNome("Luis");
+		alunos[1].setNome("Daniel");
+		alunos[2].setNome("Rafael");
+		alunos[3].setNome("Marcela");
+		alunos[4].setNome("Yachi");
+		alunos[5].setNome("Patricia");
+		alunos[6].setNome("Renata");
+		
+		for (Aluno aluno : alunos) {
+			persistidorAluno.save(aluno);
+		}	
+	}
+	
+	private void inserirUCsParaTeste()
+	{
+		/* Testes */
+		UCDAOObjectify persistidorDeUCs = new UCDAOObjectify();
+		AlunoDAOObjectify persistidorAluno = new AlunoDAOObjectify();
+
+		UC novaUC01 = new UC();
+		novaUC01.setAno(2013);
+		novaUC01.setNome("novaUC01");
+		novaUC01.setSemestre(2);
+
+		List<Key<Aluno>> alunosAux = new ArrayList<Key<Aluno>>();
+		List<Aluno> todosAlunos = persistidorAluno.getAll();
+
+		for(int i = 0; i < todosAlunos.size(); i++)
+		{
+			alunosAux.add(todosAlunos.get(i).getKey());
+		}
+		
+		novaUC01.setIdAlunos(alunosAux);
+		
+		persistidorDeUCs.save(novaUC01);		
+	}
+
+	private void inserirAulasParaTeste()
+	{
+		
+		AulaDAOObjectify persistidorAula = new AulaDAOObjectify();
+		UCDAOObjectify ucObjectify = new UCDAOObjectify();
+		AlunoDAOObjectify alunoObjectify = new AlunoDAOObjectify();
+
+		Aula aula01 = new Aula();
+		aula01.setData("21/11/2013");
+		
+		aula01.setUc(ucObjectify.getAll().get(0).getKey());
+		
+		List<Key<Aluno>> alunosPresentes = new ArrayList<Key<Aluno>>();
+		List<Aluno> alunosAux = alunoObjectify.getAll();
+		
+		alunosPresentes.add(alunosAux.get(0).getKey());
+		alunosPresentes.add(alunosAux.get(3).getKey());
+		alunosPresentes.add(alunosAux.get(4).getKey());
+		alunosPresentes.add(alunosAux.get(6).getKey());
+		
+		aula01.setIdAlunosPresentes(alunosPresentes);
+
+		persistidorAula.save(aula01);	
+	}
+
+
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {}
-	
+
 }

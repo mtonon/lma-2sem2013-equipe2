@@ -55,4 +55,10 @@ public class Aluno implements Serializable{
 	public Key<Aluno> getKey() {
 		return Key.create(Aluno.class, id);
 	}
+	
+	@Override
+	public String toString()
+	{
+		return "Aluno: \n\tID: " + id + "\n\tNome: " + nome + "\n\tRA: " + ra;
+	}
 }

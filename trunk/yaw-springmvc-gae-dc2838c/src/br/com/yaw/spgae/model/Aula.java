@@ -1,13 +1,11 @@
 package br.com.yaw.spgae.model;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.com.yaw.spgae.dao.AlunoDAOObjectify;
+import br.com.yaw.spgae.dao.UCDAOObjectify;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
@@ -19,19 +17,28 @@ public class Aula implements Serializable{
 	@Id
 	private Long id;
 	
-	private String data;
+	private Key<UC> uc;
 	
-	List<Key<Aluno>> idAlunos;
-	List<Key<Aluno>> idAlunosPresentes;
+	private String data;
+
+	private List<Key<Aluno>> idAlunosPresentes;
 	
 	public Aula() {}
-
+	
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Key<UC> getUc() {
+		return uc;
+	}
+
+	public void setUc(Key<UC> uc) {
+		this.uc = uc;
 	}
 
 	public String getData() {
@@ -42,14 +49,6 @@ public class Aula implements Serializable{
 		this.data = data;
 	}
 
-	public List<Key<Aluno>> getIdTodosAlunos() {
-		return idAlunos;
-	}
-
-	public void setIdTodosAlunos(List<Key<Aluno>> idAlunos) {
-		this.idAlunos = idAlunos;
-	}
-
 	public List<Key<Aluno>> getIdAlunosPresentes() {
 		return idAlunosPresentes;
 	}
@@ -57,15 +56,19 @@ public class Aula implements Serializable{
 	public void setIdAlunosPresentes(List<Key<Aluno>> idAlunosPresentes) {
 		this.idAlunosPresentes = idAlunosPresentes;
 	}
-	
+
 	public List<Aluno> getAlunosDaAula()
 	{
 		AlunoDAOObjectify alunoObjetify = new AlunoDAOObjectify();
+		UCDAOObjectify ucObjectify =  new UCDAOObjectify();
 		ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 		
-		for(int i = 0; i < idAlunos.size(); i++)
-		{
-			alunos.add(alunoObjetify.findById(idAlunos.get(i).getId()));
+		UC objetoUC = ucObjectify.findById( uc.getId() );
+		
+		List<Key<Aluno>> alunoDaUCKeys = objetoUC.getIdAlunos();
+		
+		for (Key<Aluno> key : alunoDaUCKeys) {
+			alunos.add(alunoObjetify.findById(key.getId()));
 		}
 		
 		return alunos;
@@ -87,19 +90,8 @@ public class Aula implements Serializable{
 	@Override
 	public String toString()
 	{
-		String listaDeTodosAlunos = "";
 		String listaDeAlunosPresentes = "";
 		Aluno alunoAux;
-		
-		for(int i = 0; i < idAlunos.size(); i++)
-		{
-			AlunoDAOObjectify alunoObjectify = new AlunoDAOObjectify();
-			alunoAux = alunoObjectify.findById(idAlunos.get(i).getId());
-			
-			listaDeTodosAlunos += "\n\tID do aluno="+alunoAux.getId()+ 
-					"\n\tNome do aluno="+alunoAux.getNome() +
-					"\n\tRA do aluno="+alunoAux.getRa();
-		}
 		
 		for(int i = 0; i < idAlunosPresentes.size(); i++)
 		{
@@ -111,7 +103,6 @@ public class Aula implements Serializable{
 					"\n\tRA do aluno="+alunoAux.getRa();
 		}
 		
-		return "Aula: Id=" + id + ", Data=" + data + "\nLista de alunos:" + listaDeTodosAlunos +
-				"\nLista de alunos presentes:" + listaDeAlunosPresentes;
+		return "Aula: Id=" + id + ", Data=" + data + "\nLista de alunos presentes:" + listaDeAlunosPresentes;
 	}
 }
