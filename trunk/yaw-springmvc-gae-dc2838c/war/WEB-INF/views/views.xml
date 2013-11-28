@@ -40,5 +40,9 @@
 	<definition extends="default" name="formUC">
 		<put-attribute name="body" value="/WEB-INF/views/formUC.jsp" />
 	</definition>
+	
+		<definition extends="default" name="index">
+		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+	</definition>
 
 </tiles-definitions>

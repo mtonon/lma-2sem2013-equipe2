@@ -3,6 +3,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <div>
 
 	<div style="border-bottom: 1px solid #E5E5E5;">
@@ -15,27 +17,33 @@
 		action="listaAlunosSalvarPresenca">
 		<div class="control-group">
 			<div class="controls">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Nome</th>
+							<c:forEach items="${aulas}" var="aula">
+								<th>${aula.data}</th>
+							</c:forEach>
+						</tr>
+					</thead>
+					<c:forEach items="${alunos}" var="aluno">
+						<tr>
+							<td>${aluno.id}</td>
+							<td>${aluno.nome}</td>
 
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Nome</th>
-						<th>11/11/2013</th>
-					</tr>
-				</thead>
-				<c:forEach items="${alunos}" var="a">
-					<tr>
-						<td>${a.id}</td>
-						<td><spring:url value="/${a.id}" var="edit_url" htmlEscape="true">
-								<spring:param name="listaAlunos"></spring:param>
-							</spring:url> 
-							<a href="${edit_url}" title="Editar ${a.nome}">${a.nome}</a></td>
-						<td><input type="checkbox" name="presente" value="${a.id}" ${a.id == 'Algum_ID' ? 'checked' : ''}></td>
-					</tr>
-				</c:forEach>
-			</table>
-			<button id="salvarPresenca" class="btn btn-success">Salvar</button>
-		 </div>
+							<%-- Cada elemento da matrizAulaPresence eh uma lista de objetos AulaPresencaBean,
+							 que contem o id de uma aula e uma lista de alunos presentes  --%>
+							<c:forEach items="${matrizAulaPresenca}" var="aulaPresenca">
+								<td><input type="checkbox" name="presente"
+									value="${aulaPresenca.idAula}:${aluno.id}"
+									${fn:contains(aulaPresenca.alunosPresentesNaAula, aluno) ? 'checked' : ''}></td>
+							</c:forEach>
+
+						</tr>
+					</c:forEach>
+				</table>
+				<button id="salvarPresenca" class="btn btn-success">Salvar</button>
+			</div>
 	</form:form>
 </div>

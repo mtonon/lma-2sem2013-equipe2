@@ -93,9 +93,17 @@ public class ConfigStartup implements ServletContextListener {
 		AlunoDAOObjectify alunoObjectify = new AlunoDAOObjectify();
 
 		Aula aula01 = new Aula();
-		aula01.setData("21/11/2013");
+		Aula aula02 = new Aula();
+		Aula aula03 = new Aula();
 		
+		aula01.setData("21/11/2013");
+		aula02.setData("25/11/2013");
+		aula03.setData("27/11/2013");
+		
+		//TODO Gambi
 		aula01.setUc(ucObjectify.getAll().get(0).getKey());
+		aula02.setUc(ucObjectify.getAll().get(0).getKey());
+		aula03.setUc(ucObjectify.getAll().get(0).getKey());
 		
 		List<Key<Aluno>> alunosPresentes = new ArrayList<Key<Aluno>>();
 		List<Aluno> alunosAux = alunoObjectify.getAll();
@@ -106,8 +114,12 @@ public class ConfigStartup implements ServletContextListener {
 		alunosPresentes.add(alunosAux.get(6).getKey());
 		
 		aula01.setIdAlunosPresentes(alunosPresentes);
+		aula02.setIdAlunosPresentes(alunosPresentes);
+		aula03.setIdAlunosPresentes(alunosPresentes);
 
-		persistidorAula.save(aula01);	
+		persistidorAula.save(aula01);
+		persistidorAula.save(aula02);
+		persistidorAula.save(aula03);
 	}
 
 

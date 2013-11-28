@@ -19,9 +19,17 @@
 			Nome: <input type="text" name="nome" > </br>
 			Semestre: <input type="text" name="semestre" > </br>
 			Ano: <input type="text" name="ano" > </br>
-
-			<button id="incluirUC" class="btn btn-success">Incluir</button>
+			Aluno: 
+			<select>
+			  <c:forEach items="${alunos}" var="a"> 
+			  	<option value="${a.id}">${a.nome}</option>
+			   </c:forEach> 
+			</select>
 			
-		 </div>
+		</div>	
+		
+		<button id="incluirUC" class="btn btn-success">Incluir</button>
+			
+		 
 	</form:form>
 </div>
