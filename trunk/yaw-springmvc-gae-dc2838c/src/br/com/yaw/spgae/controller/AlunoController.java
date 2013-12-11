@@ -71,19 +71,18 @@ public class AlunoController {
 	@RequestMapping(value = "formUC", method = RequestMethod.GET)
 	public String exibirFormUC(Model uiModel) {
 		uiModel.addAttribute("active", "form_uc");
-		//Listar Alunos no comboBox
+		uiModel.addAttribute("alunos", alunoDAO.getAll());
 		return "formUC";
 	}
-	
+		
 	@RequestMapping(value = "incluirUC", method = RequestMethod.POST)
-	public String incluirUC(Model uiModel, UC novaUC) {
+	public String incluirUC(Model uiModel, UC novaUC, HttpServletRequest request) {
+		String idAlunos[] = request.getParameterValues("selecionado");
+		for(int i=0; i<idAlunos.length; i++){
+			novaUC.addAlunoUC(alunoDAO.findById(Long.parseLong(idAlunos[i])));
 		
-		List<Aluno> todosAlunos = alunoDAO.getAll();
-		
-		for (Aluno aluno : todosAlunos) {
-			novaUC.addAlunoNaAula(aluno);
+			
 		}
-		
 		ucDAO.save(novaUC);
 		
 		return "redirect: listaAlunos";

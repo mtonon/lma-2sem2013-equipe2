@@ -5,7 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <div>
-
 	<div style="border-bottom: 1px solid #E5E5E5;">
 		<h3>
 			Criar nova UC
@@ -19,17 +18,26 @@
 			Nome: <input type="text" name="nome" > </br>
 			Semestre: <input type="text" name="semestre" > </br>
 			Ano: <input type="text" name="ano" > </br>
-			Aluno: 
-			<select>
-			  <c:forEach items="${alunos}" var="a"> 
-			  	<option value="${a.id}">${a.nome}</option>
-			   </c:forEach> 
-			</select>
 			
-		</div>	
+			
+			<table class="table ">
+			<thead><th>Selecao de Aluno:</th></thread> 
+			
+			<br>
+			
+			<c:forEach items="${alunos}" var="aluno">
+			<tr>
+				<td width="40%">${aluno.nome}</td>
+				<td><input type="checkbox" name="selecionado" value="${aluno.id}" ></td>	
+				
+				
+			</tr>
+			</c:forEach>
+			</table>
+			</div>
 		
-		<button id="incluirUC" class="btn btn-success">Incluir</button>
-			
-		 
+		<button name="botao" value="incluirUC" id="incluirUC" class="btn btn-success">Incluir</button>
+
+		</div>
 	</form:form>
 </div>

@@ -77,7 +77,7 @@ public class UC implements Serializable{
 		return alunos;
 	}
 
-	public void addAlunoNaAula(Aluno aluno)
+	public void addAlunoUC(Aluno aluno)
 	{
 		if (idAlunos == null) {
 			idAlunos = new ArrayList<Key<Aluno>>();

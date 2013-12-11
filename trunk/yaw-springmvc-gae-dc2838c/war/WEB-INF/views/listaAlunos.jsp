@@ -12,14 +12,12 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>#</th>
 				<th>Nome</th>
 				<th>RA</th>
 			</tr>
 		</thead>
 		<c:forEach items="${alunos}" var="a">
 		<tr>
-			<td>${a.id}</td>
 			<td>
 				<spring:url value="/${a.id}" var="edit_url" htmlEscape="true">
 					<spring:param name="listaAlunos"></spring:param>
