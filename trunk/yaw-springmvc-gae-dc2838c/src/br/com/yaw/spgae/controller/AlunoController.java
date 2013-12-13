@@ -1,6 +1,8 @@
 package br.com.yaw.spgae.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -19,6 +22,7 @@ import br.com.yaw.spgae.dao.AulaDAO;
 import br.com.yaw.spgae.dao.UCDAO;
 import br.com.yaw.spgae.model.Aluno;
 import br.com.yaw.spgae.model.Aula;
+import br.com.yaw.spgae.model.Mercadoria;
 import br.com.yaw.spgae.model.UC;
 
 import com.googlecode.objectify.Key;
@@ -39,7 +43,7 @@ public class AlunoController {
 		
 		AulaPresencaBean aulaPresencaBeanAux;
 		List<Aula> todasAulas = aulaDAO.getAll();
-		List<Aluno> alunosDaUC = ucDAO.getAll().get(0).getAlunosDaUC(); //TODO escolher a aula correta.
+		List<Aluno> alunosDaUC = ucDAO.getAll().get(0).getAlunosDaUC(); //TODO escolher a UC correta.
 		ArrayList<AulaPresencaBean> matrizAulaPresenca = new ArrayList<AulaPresencaBean>();
 		
 		/* Cada linha dessa Lista ira conter a o id de uma aula e a lista de alunos presentes nesse aula. (Um objeto AulaPresencaBean) */
@@ -51,6 +55,7 @@ public class AlunoController {
 			matrizAulaPresenca.add( aulaPresencaBeanAux );
 		}
 		
+		uiModel.addAttribute("uc", ucDAO.getAll().get(0)); //TODO escolher a UC correta.
 		uiModel.addAttribute("active", "lista_presenca");
 		uiModel.addAttribute("aulas", todasAulas);
 		uiModel.addAttribute("alunos", alunosDaUC);
@@ -123,6 +128,30 @@ public class AlunoController {
 	        aulaDAO.save(aulaAux);
 	    }
 		
+		return "redirect:"+exibirListaDePresenca(uiModel);
+	}
+	
+	@RequestMapping(value = "criarNovaAula", method = RequestMethod.POST)
+	public String criarNovaAula(Model uiModel, HttpServletRequest request) {
+		
+		String idAlunos[] = request.getParameterValues("btnCriarNovaAula");
+		Calendar dataAtual = Calendar.getInstance();
+		
+		if(idAlunos == null || (idAlunos.length == 0) )
+			return "redirect:"+exibirListaDePresenca(uiModel);
+		
+		Aula novaAula = new Aula();
+		
+		novaAula.setData(dataAtual.get(Calendar.DAY_OF_MONTH) + "/" + 
+				(dataAtual.get(Calendar.MONTH)+1) + "/" +
+				dataAtual.get(Calendar.YEAR) );
+		
+		novaAula.setUc( ucDAO.findById(Long.parseLong(idAlunos[0])).getKey() );
+		
+		novaAula.setIdAlunosPresentes(ucDAO.findById(Long.parseLong(idAlunos[0])).getIdAlunos());
+		
+		aulaDAO.save(novaAula);
+
 		return "redirect:"+exibirListaDePresenca(uiModel);
 	}
 }

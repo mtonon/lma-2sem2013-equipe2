@@ -39,11 +39,18 @@
 									value="${aulaPresenca.idAula}:${aluno.id}"
 									${fn:contains(aulaPresenca.alunosPresentesNaAula, aluno) ? 'checked' : ''}></td>
 							</c:forEach>
-
 						</tr>
 					</c:forEach>
 				</table>
 				<button id="salvarPresenca" class="btn btn-success">Salvar</button>
 			</div>
+	</form:form>
+	
+	<form:form id="criarNovaAula" method="post"
+			action="criarNovaAula">
+		<div class="control-group">
+			</br>
+			<button value="${uc.id}" name="btnCriarNovaAula" id="btnCriarNovaAula" class="btn btn-success">Nova Aula</button>
+		</div>
 	</form:form>
 </div>
