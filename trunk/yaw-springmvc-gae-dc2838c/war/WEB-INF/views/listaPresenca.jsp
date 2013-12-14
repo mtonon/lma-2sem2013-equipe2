@@ -9,7 +9,7 @@
 
 	<div style="border-bottom: 1px solid #E5E5E5;">
 		<h3>
-			Presença dos Alunos <small> Listagem</small>
+			Presença dos ASlunos <small> Listagem</small>
 		</h3>
 	</div>
 

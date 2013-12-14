@@ -6,38 +6,27 @@
 
 <div>
 	<div style="border-bottom: 1px solid #E5E5E5;">
-		<h3>Criar nova UC</h3>
+		<h3>Criar novo Aluno</h3>
 	</div>
 
-	<form:form id="criarUC" method="post" action="incluirUC">
+	<form:form id="criarAluno" method="post" action="incluirAluno">
 		<div class="control-group">
 			<div class="controls">
 
-				Nome: <input type="text" name="nome"> </br> Semestre: <input
-					type="text" name="semestre"> </br> Ano: <input type="text"
-					name="ano"> </br>
-
+				Nome: <input type="text" name="nome">
+				</br> 
+				RA: <input type="text" name="ra"> </br>
 
 				<table class="table ">
 					<thead>
-						<th>Selecao de Aluno:</th>
+						<th>Dados do novo aluno</th>
 					</thead>
-
 					<br>
-
-					<c:forEach items="${alunos}" var="aluno">
-						<tr>
-							<td width="40%">${aluno.nome}</td>
-							<td><input type="checkbox" name="selecionado"
-								value="${aluno.id}"></td>
-						</tr>
-					</c:forEach>
 				</table>
 			</div>
 
-			<button name="botao" value="incluirUC" id="incluirUC"
+			<button name="botao" value="incluirAluno" id="incluirAluno"
 				class="btn btn-success">Incluir</button>
-
 		</div>
 	</form:form>
 </div>

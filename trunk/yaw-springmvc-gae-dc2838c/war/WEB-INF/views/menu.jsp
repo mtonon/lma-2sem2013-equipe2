@@ -26,15 +26,17 @@
 			<a href="/formUC">Criar UC</a>
 		</li>
 		
-		<li class="${active == 'lista_presenca' ? 'active' : ''}">
-			<a href="/listaPresenca">Lista de Presenca</a>
+		<li class="${active == 'form_aluno' ? 'active' : ''}">
+			<a href="/formAluno">Criar Aluno</a>
+		</li>
+		
+		<li class="${active == 'lista_uc' ? 'active' : ''}">
+			<a href="/listaUC">Lista de UCs</a>
 		</li>
 		
 		<li class="${active == 'lista_alunos' ? 'active' : ''}">
 			<a href="/listaAlunos">Lista de Alunos</a>
 		</li>
-		
-		<%-- Modificado - Rafael --%>
         
 		<li class="divider"></li>
 		<li class="${active == 'sobre' ? 'active' : ''}">

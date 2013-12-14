@@ -41,18 +41,45 @@ public class AlunoController {
 	@Autowired
 	private UCDAO ucDAO;
 	
+	@RequestMapping(value = "listaUC", method = RequestMethod.GET)
+	public String exibirListaDeUCs(Model uiModel) {
+		
+		List<UC> todasUCs = ucDAO.getAll();
+		
+		uiModel.addAttribute("ucs", todasUCs);
+		uiModel.addAttribute("active", "lista_uc");
+		
+		return "listaUC";
+	}
+	
 	@RequestMapping(value = "listaPresenca", method = RequestMethod.GET)
-	public String exibirListaDePresenca(Model uiModel) {
+	public String exibirListaDePresenca(Model uiModel, HttpServletRequest request, Long idUC ) {
+
+		Long ucID;
+		String[] parameterValues = null;
+		UC ucSelecionada;
+		
+		if( request!=null && 
+				(parameterValues = request.getParameterValues("linkUC")) != null &&
+				parameterValues.length > 0)
+		{
+			ucID = Long.parseLong(parameterValues[0]);
+		}
+		else{
+			ucID = idUC;
+		}
+		
+		ucSelecionada = ucDAO.findById(ucID);
 		
 		AulaPresencaBean aulaPresencaBeanAux;
-		List<Aula> todasAulas = aulaDAO.getAll();
-		List<Aluno> alunosDaUC = ucDAO.getAll().get(0).getAlunosDaUC(); //TODO escolher a UC correta.
+		List<Aula> aulasDaUC = ucSelecionada.getAulasDaUC();
+		List<Aluno> alunosDaUC = ucSelecionada.getAlunosDaUC();
 		ArrayList<AulaPresencaBean> matrizAulaPresenca = new ArrayList<AulaPresencaBean>();
 		
-		todasAulas = ordenaAulasPorData(todasAulas);
+		aulasDaUC = ordenaAulasPorData(aulasDaUC);
 		
 		/* Cada linha dessa Lista ira conter a o id de uma aula e a lista de alunos presentes nesse aula. (Um objeto AulaPresencaBean) */
-		for (Aula aulaAux : todasAulas) {
+		for (Aula aulaAux : aulasDaUC) {
 			aulaPresencaBeanAux = new AulaPresencaBean();
 			aulaPresencaBeanAux.setIdAula( aulaAux.getId() );
 			aulaPresencaBeanAux.setAlunosPresentesNaAula( aulaAux.getAlunosPresentes() );
@@ -60,9 +87,8 @@ public class AlunoController {
 			matrizAulaPresenca.add( aulaPresencaBeanAux );
 		}
 		
-		uiModel.addAttribute("uc", ucDAO.getAll().get(0)); //TODO escolher a UC correta.
-		uiModel.addAttribute("active", "lista_presenca");
-		uiModel.addAttribute("aulas", todasAulas);
+		uiModel.addAttribute("uc", ucSelecionada);
+		uiModel.addAttribute("aulas", aulasDaUC);
 		uiModel.addAttribute("alunos", alunosDaUC);
 		uiModel.addAttribute("matrizAulaPresenca", matrizAulaPresenca);
 		
@@ -90,11 +116,22 @@ public class AlunoController {
 		String idAlunos[] = request.getParameterValues("selecionado");
 		for(int i=0; i<idAlunos.length; i++){
 			novaUC.addAlunoUC(alunoDAO.findById(Long.parseLong(idAlunos[i])));
-		
-			
 		}
 		ucDAO.save(novaUC);
 		
+		return "redirect: listaUC";
+	}
+	
+	@RequestMapping(value = "formAluno", method = RequestMethod.GET)
+	public String exibirFormAluno(Model uiModel) {
+		uiModel.addAttribute("active", "form_aluno");
+		return "formAluno";
+	}
+	
+	@RequestMapping(value = "/incluirAluno", method = RequestMethod.POST)
+	public String incluirAluno(Model uiModel, Aluno novoAluno, HttpServletRequest request) {
+		
+		alunoDAO.save(novoAluno);
 		return "redirect: listaAlunos";
 	}
 	
@@ -104,13 +141,13 @@ public class AlunoController {
 		ArrayList<Key<Aluno>> alunosPresentesIDsAux;
 		HashMap< Long, ArrayList<Key<Aluno>> > mapaAulaAlunosPresentes = new HashMap<Long, ArrayList<Key<Aluno>>>();
 		Iterator it;
-		Long idAulaAux, idAlunoAux;
+		Long idAulaAux = 0l, idAlunoAux;
 		String[] strSplitAux;
-		String[] teste = request.getParameterValues("presente");
-
-		for (int i = 0; (teste!=null) && (i < teste.length); i++) {
+		String[] checkBoxValues = request.getParameterValues("presente");
+		
+		for (int i = 0; (checkBoxValues!=null) && (i < checkBoxValues.length); i++) {
 			
-			strSplitAux = teste[i].split(":"); /* Posicao 1: Id da Aula, Posicao 2: Id do Aluno presente nessa aula */
+			strSplitAux = checkBoxValues[i].split(":"); /* Posicao 1: Id da Aula, Posicao 2: Id do Aluno presente nessa aula */
 			idAulaAux = Long.parseLong(strSplitAux[0]);
 			idAlunoAux = Long.parseLong(strSplitAux[1]);
 			
@@ -133,17 +170,14 @@ public class AlunoController {
 	        aulaDAO.save(aulaAux);
 	    }
 		
-		return "redirect:"+exibirListaDePresenca(uiModel);
+		return exibirListaDePresenca(uiModel, null, aulaDAO.findById( idAulaAux ).getUc().getId() );
 	}
 	
 	@RequestMapping(value = "criarNovaAula", method = RequestMethod.POST)
 	public String criarNovaAula(Model uiModel, HttpServletRequest request) {
 		
-		String idAlunos[] = request.getParameterValues("btnCriarNovaAula");
+		Long idUC = Long.parseLong(request.getParameterValues("btnCriarNovaAula")[0]);
 		Calendar dataAtual = Calendar.getInstance();
-		
-		if(idAlunos == null || (idAlunos.length == 0) )
-			return "redirect:"+exibirListaDePresenca(uiModel);
 		
 		Aula novaAula = new Aula();
 		
@@ -151,13 +185,13 @@ public class AlunoController {
 				(dataAtual.get(Calendar.MONTH)+1) + "/" +
 				dataAtual.get(Calendar.YEAR) );
 		
-		novaAula.setUc( ucDAO.findById(Long.parseLong(idAlunos[0])).getKey() );
+		novaAula.setUc( ucDAO.findById(idUC).getKey() );
 		
-		novaAula.setIdAlunosPresentes(ucDAO.findById(Long.parseLong(idAlunos[0])).getIdAlunos());
+		novaAula.setIdAlunosPresentes(ucDAO.findById(idUC).getIdAlunos());
 		
 		aulaDAO.save(novaAula);
 
-		return "redirect:"+exibirListaDePresenca(uiModel);
+		return exibirListaDePresenca(uiModel, null, novaAula.getUc().getId() );
 	}
 	
 	private List<Aula> ordenaAulasPorData(List<Aula> aulas)

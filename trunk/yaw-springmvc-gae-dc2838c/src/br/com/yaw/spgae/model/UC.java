@@ -2,9 +2,11 @@ package br.com.yaw.spgae.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import br.com.yaw.spgae.dao.AlunoDAOObjectify;
+import br.com.yaw.spgae.dao.AulaDAOObjectify;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
@@ -75,6 +77,20 @@ public class UC implements Serializable{
 		}
 
 		return alunos;
+	}
+	
+	public List<Aula> getAulasDaUC()
+	{
+		AulaDAOObjectify aulaObjectify = new AulaDAOObjectify();
+		List<Aula> todasAsAulas = aulaObjectify.getAll();
+		ArrayList<Aula> aulas = new ArrayList<Aula>();
+		
+		for (Aula aula : todasAsAulas) {
+			if( aula.getUc().getId() == this.id )
+				aulas.add(aula);
+		}
+		
+		return aulas;
 	}
 
 	public void addAlunoUC(Aluno aluno)

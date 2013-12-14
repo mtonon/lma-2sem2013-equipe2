@@ -2,47 +2,57 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 <tiles-definitions>
 
-    <!--
-    	Arquivo que define no tiles quais sao as paginas, e quais templates cada uma utiliza.
-    	Repare que em nossa aplicacao, o unico atributo sobreescrito pelas paginas eh o body.
-    -->
-    
+	<!-- Arquivo que define no tiles quais sao as paginas, e quais templates 
+		cada uma utiliza. Repare que em nossa aplicacao, o unico atributo sobreescrito 
+		pelas paginas eh o body. -->
+
 	<definition extends="default" name="lista">
-		<put-attribute name="body" value="/WEB-INF/views/listaMercadorias.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/listaMercadorias.jsp" />
 	</definition>
-	
+
 	<definition extends="default" name="incluir">
-		<put-attribute name="body" value="/WEB-INF/views/incluirMercadoria.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/incluirMercadoria.jsp" />
 	</definition>
-	
+
 	<definition extends="default" name="editar">
-		<put-attribute name="body" value="/WEB-INF/views/editarMercadoria.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/editarMercadoria.jsp" />
 	</definition>
-	
+
 	<definition extends="default" name="errorPage">
 		<put-attribute name="body" value="/WEB-INF/views/errorPage.jsp" />
 	</definition>
-	
+
 	<definition extends="default" name="sobre">
 		<put-attribute name="body" value="/WEB-INF/views/sobre.jsp" />
 	</definition>
-	
+
 	<!-- Modificado -->
-	
+
 	<definition extends="default" name="listaPresenca">
 		<put-attribute name="body" value="/WEB-INF/views/listaPresenca.jsp" />
 	</definition>
-	
+
 	<definition extends="default" name="listaAlunos">
 		<put-attribute name="body" value="/WEB-INF/views/listaAlunos.jsp" />
 	</definition>
-	
+
 	<definition extends="default" name="formUC">
 		<put-attribute name="body" value="/WEB-INF/views/formUC.jsp" />
 	</definition>
-	
-		<definition extends="default" name="index">
+
+	<definition extends="default" name="formAluno">
+		<put-attribute name="body" value="/WEB-INF/views/formAluno.jsp" />
+	</definition>
+
+	<definition extends="default" name="index">
 		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+	</definition>
+
+	<definition extends="default" name="listaUC">
+		<put-attribute name="body" value="/WEB-INF/views/listaUC.jsp" />
 	</definition>
 
 </tiles-definitions>
