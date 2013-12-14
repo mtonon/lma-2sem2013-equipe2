@@ -20,7 +20,6 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>#</th>
 							<th>Nome</th>
 							<c:forEach items="${aulas}" var="aula">
 								<th>${aula.data}</th>
@@ -29,7 +28,6 @@
 					</thead>
 					<c:forEach items="${alunos}" var="aluno">
 						<tr>
-							<td>${aluno.id}</td>
 							<td>${aluno.nome}</td>
 
 							<%-- Cada elemento da matrizAulaPresence eh uma lista de objetos AulaPresencaBean,

@@ -2,6 +2,8 @@ package br.com.yaw.spgae.controller;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +12,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.datanucleus.store.types.sco.backed.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,6 +48,8 @@ public class AlunoController {
 		List<Aula> todasAulas = aulaDAO.getAll();
 		List<Aluno> alunosDaUC = ucDAO.getAll().get(0).getAlunosDaUC(); //TODO escolher a UC correta.
 		ArrayList<AulaPresencaBean> matrizAulaPresenca = new ArrayList<AulaPresencaBean>();
+		
+		todasAulas = ordenaAulasPorData(todasAulas);
 		
 		/* Cada linha dessa Lista ira conter a o id de uma aula e a lista de alunos presentes nesse aula. (Um objeto AulaPresencaBean) */
 		for (Aula aulaAux : todasAulas) {
@@ -153,5 +158,29 @@ public class AlunoController {
 		aulaDAO.save(novaAula);
 
 		return "redirect:"+exibirListaDePresenca(uiModel);
+	}
+	
+	private List<Aula> ordenaAulasPorData(List<Aula> aulas)
+	{
+		
+		Collections.sort(aulas, new Comparator<Aula>() {
+			@Override
+			public int compare(Aula o1, Aula o2) {
+				String o1StrAux, o2StrAux;
+				String[] splitedStringAux;
+				
+				splitedStringAux = o1.getData().split("/");
+				o1StrAux = splitedStringAux[2] + splitedStringAux[1] +
+						splitedStringAux[0];
+				
+				splitedStringAux = o2.getData().split("/");
+				o2StrAux = splitedStringAux[2] + splitedStringAux[1] +
+						splitedStringAux[0];
+				
+				return o1StrAux.compareTo(o2StrAux);
+			}
+		});
+		
+		return aulas;
 	}
 }
