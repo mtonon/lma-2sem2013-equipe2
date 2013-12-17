@@ -18,12 +18,7 @@
 		</thead>
 		<c:forEach items="${alunos}" var="a">
 		<tr>
-			<td>
-				<spring:url value="/${a.id}" var="edit_url" htmlEscape="true">
-					<spring:param name="listaAlunos"></spring:param>
-				</spring:url>
-				<a href="${edit_url}" title="Editar ${a.nome}">${a.nome}</a>
-			</td>
+			<td>${a.nome}</td>
 			<td>${a.ra}</td>
 		</tr>
 		</c:forEach>
@@ -31,7 +26,6 @@
 	<form:form id="atualizarAluno" action="synch" method="GET">
 		<div class="control-group">
 	   		<div class="controls">
-	   			<button id="salvarAluno" class="btn btn-success">Atualizar</button>
 	   		</div>
 	   	</div>
 	</form:form>

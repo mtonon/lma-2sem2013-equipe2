@@ -11,24 +11,15 @@ import br.com.yaw.spgae.dao.AulaDAOObjectify;
 import br.com.yaw.spgae.dao.UCDAOObjectify;
 import br.com.yaw.spgae.model.Aluno;
 import br.com.yaw.spgae.model.Aula;
-import br.com.yaw.spgae.model.Mercadoria;
 import br.com.yaw.spgae.model.UC;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 
-/**
- * Componente necessário para registrar no Objectify quais são as entidades que ele deve gerenciar.
- * 
- * <p>Código executado durante a inicialização do aplicativo web.</p> 
- * 
- * @author YaW Tecnologia
- */
 public class ConfigStartup implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
-		ObjectifyService.register(Mercadoria.class);
 		ObjectifyService.register(Aluno.class);
 		ObjectifyService.register(Aula.class);
 		ObjectifyService.register(UC.class);
@@ -100,7 +91,6 @@ public class ConfigStartup implements ServletContextListener {
 		aula02.setData("25/11/2013");
 		aula03.setData("27/11/2013");
 		
-		//TODO Gambi
 		aula01.setUc(ucObjectify.getAll().get(0).getKey());
 		aula02.setUc(ucObjectify.getAll().get(0).getKey());
 		aula03.setUc(ucObjectify.getAll().get(0).getKey());

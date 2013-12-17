@@ -17,12 +17,6 @@
 				</br> 
 				RA: <input type="text" name="ra"> </br>
 
-				<table class="table ">
-					<thead>
-						<th>Dados do novo aluno</th>
-					</thead>
-					<br>
-				</table>
 			</div>
 
 			<button name="botao" value="incluirAluno" id="incluirAluno"
