@@ -142,6 +142,7 @@ public class MyController {
 			
 			novaProva.setIdUC(novaUC.getKey());
 			novaProva.setNome("Prova " + (i+1));
+			novaProva.setValor(0.0);
 			
 			notaDAO.save(novaProva);
 		}
@@ -152,6 +153,7 @@ public class MyController {
 			
 			novoTrabalho.setIdUC(novaUC.getKey());
 			novoTrabalho.setNome("Trabalho " + (i+1));
+			novoTrabalho.setValor(0.0);
 			
 			notaDAO.save(novoTrabalho);
 		}
