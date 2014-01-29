@@ -38,8 +38,8 @@
 						</tr>
 					</c:forEach>
 				</table>
-				<button name="botao" value="salvarPresenca" id="salvarPresenca" class="btn btn-success" style="width:100px">Salvar</button>
-			    <button name="botao" value="exibirNotas" id="notasUC" class="btn btn-warning" style="width:100px">Notas</button>
+				<button name="botao" value="salvarPresenca:none" id="salvarPresenca" class="btn btn-success" style="width:100px">Salvar</button>
+			    <button name="botao" value="exibirNotas:${uc.id}" id="notasUC" class="btn btn-warning" style="width:100px">Notas</button>
 			</div>
 	</form:form>
 	
