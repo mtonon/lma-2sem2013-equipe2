@@ -7,7 +7,7 @@ public class AlunoNotaBean {
 	
 	Long idAluno;
 	String nomeAluno;
-	List<Nota> notasAluno;
+	List<String> notasAluno;
 	
 	public AlunoNotaBean() {}
 
@@ -27,12 +27,12 @@ public class AlunoNotaBean {
 		this.nomeAluno = nomeAluno;
 	}
 
-	public List<Nota> getNotasAluno() {
+	public List<String> getNotasAluno() {
 		return notasAluno;
 	}
 
-	public void setNotasAluno(List<Nota> notasAluno) {
+	public void setNotasAluno(List<String> notasAluno) {
 		this.notasAluno = notasAluno;
 	}
-
+	
 }

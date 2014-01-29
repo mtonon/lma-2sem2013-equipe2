@@ -14,6 +14,7 @@ public class Nota implements Serializable{
 	private String nome;
 	private double valor;
 	Key<UC> idUC;
+	Key<Aluno> idAluno;
 	
 	public Nota() {}
 	
@@ -58,6 +59,14 @@ public class Nota implements Serializable{
 		return Key.create(Nota.class, id);
 	}
 	
+	public Key<Aluno> getIdAluno() {
+		return idAluno;
+	}
+
+	public void setIdAluno(Key<Aluno> idAluno) {
+		this.idAluno = idAluno;
+	}
+
 	@Override
 	public String toString()
 	{

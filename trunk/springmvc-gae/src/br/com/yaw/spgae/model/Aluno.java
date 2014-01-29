@@ -1,9 +1,14 @@
 package br.com.yaw.spgae.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import br.com.yaw.spgae.dao.NotaDAOObjectify;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
@@ -54,6 +59,36 @@ public class Aluno implements Serializable{
 	
 	public Key<Aluno> getKey() {
 		return Key.create(Aluno.class, id);
+	}
+	
+	public List<Nota> getProvasAluno(Key<UC> ucKey) {
+		NotaDAOObjectify notaDAOObjectify = new NotaDAOObjectify();
+		List<Nota> todasNotas = notaDAOObjectify.getAll();
+		List<Nota> provasDoAluno = new ArrayList<Nota>();
+		
+		for (Nota nota : todasNotas) {
+			if( (nota.getIdUC().equals(ucKey)) && (nota.getIdAluno().equals(getKey())) && nota.getNome().contains("Prova") )
+			{
+				provasDoAluno.add(nota);
+			}
+		}
+		
+		return provasDoAluno;
+	}
+	
+	public List<Nota> getTrabalhosAluno(Key<UC> ucKey) {
+		NotaDAOObjectify notaDAOObjectify = new NotaDAOObjectify();
+		List<Nota> todasNotas = notaDAOObjectify.getAll();
+		List<Nota> trabalhosDoAluno = new ArrayList<Nota>();
+		
+		for (Nota nota : todasNotas) {
+			if((nota.getIdUC().equals(ucKey)) && (nota.getIdAluno().equals(getKey())) && nota.getNome().contains("Trabalho") )
+			{
+				trabalhosDoAluno.add(nota);
+			}
+		}
+		
+		return trabalhosDoAluno;
 	}
 	
 	@Override

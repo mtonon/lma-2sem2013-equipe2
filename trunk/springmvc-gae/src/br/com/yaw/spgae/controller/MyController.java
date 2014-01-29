@@ -1,5 +1,6 @@
 package br.com.yaw.spgae.controller;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -110,7 +111,6 @@ public class MyController {
 	public String exibirListaAlunos(Model uiModel) {
 		uiModel.addAttribute("active", "lista_alunos");
 		uiModel.addAttribute("alunos", alunoDAO.getAll());
-//		uiModel.addAttribute("alunosPresentes", aulaDAO.getAll().get(0).getAlunosPresentes());
 
 		return "listaAlunos";
 	}
@@ -122,40 +122,45 @@ public class MyController {
 		return "formUC";
 	}
 
+	//TODO Aqui
 	@RequestMapping(value = "incluirUC", method = RequestMethod.POST)
 	public String incluirUC(Model uiModel, UC novaUC, HttpServletRequest request) {
 		
-		int numProvas, numTrabalhos;
 		String idAlunos[] = request.getParameterValues("selecionado");
 		
 		for(int i = 0; i < idAlunos.length; i++){
-			novaUC.addAlunoUC(alunoDAO.findById(Long.parseLong(idAlunos[i])));
-		}
-		novaUC = ucDAO.save(novaUC);
-		
-		numProvas = novaUC.getNumProvas();
-		numTrabalhos = novaUC.getNumTrabalhos();
-		
-		for(int i = 0; i < numProvas; i++)
-		{
-			Nota novaProva = new Nota();
 			
-			novaProva.setIdUC(novaUC.getKey());
-			novaProva.setNome("Prova " + (i+1));
-			novaProva.setValor(0.0);
+			Aluno alunoAux = alunoDAO.findById(Long.parseLong(idAlunos[i]));
 			
-			notaDAO.save(novaProva);
-		}
-		
-		for(int i = 0; i < numTrabalhos; i++)
-		{
-			Nota novoTrabalho = new Nota();
+			novaUC.addAlunoUC(alunoAux);
 			
-			novoTrabalho.setIdUC(novaUC.getKey());
-			novoTrabalho.setNome("Trabalho " + (i+1));
-			novoTrabalho.setValor(0.0);
+			novaUC = ucDAO.save(novaUC);
 			
-			notaDAO.save(novoTrabalho);
+			for(int j = 0; j < novaUC.getNumProvas(); j++)
+			{
+				Nota novaProva = new Nota();
+				
+				novaProva.setIdUC(novaUC.getKey());
+				novaProva.setNome("Prova " + (i+1));
+//				novaProva.setValor(0.0);
+				novaProva.setValor(Math.random()*10);
+				novaProva.setIdAluno(alunoAux.getKey());
+				
+				notaDAO.save(novaProva);
+			}
+			
+			for(int j = 0; j < novaUC.getNumTrabalhos(); j++)
+			{
+				Nota novoTrabalho = new Nota();
+				
+				novoTrabalho.setIdUC(novaUC.getKey());
+				novoTrabalho.setNome("Trabalho " + (i+1));
+//				novoTrabalho.setValor(0.0);
+				novoTrabalho.setValor(Math.random()*10);
+				novoTrabalho.setIdAluno(alunoAux.getKey());
+				
+				notaDAO.save(novoTrabalho);
+			}
 		}
 
 		return "redirect: listaUC";
@@ -177,7 +182,7 @@ public class MyController {
 	@RequestMapping(value = "listaPresencaAction", method = RequestMethod.POST)
 	public String salvarPresenca(Model uiModel, HttpServletRequest request) {
 
-		if(request.getParameterValues("botao")[0].equals("salvarPresenca")){
+		if((request.getParameterValues("botao")[0]).split(":")[0].equals("salvarPresenca")){
 
 			System.out.println();
 
@@ -216,6 +221,59 @@ public class MyController {
 			return exibirListaDePresenca(uiModel, null, aulaDAO.findById( idAulaAux ).getUc().getId() );
 		}
 		else{
+			DecimalFormat decimalFormat = new DecimalFormat("#.##");
+			UC uc = ucDAO.findById(Long.parseLong((request.getParameterValues("botao")[0]).split(":")[1]));
+			List<Aluno> alunosDaUC = uc.getAlunosDaUC();
+			List<AlunoNotaBean> alunoNotaBeans = new ArrayList<AlunoNotaBean>();
+			ArrayList<String> tableHeadList = new ArrayList<String>();
+			
+			/* Dados do Header da tabela */
+			for(int i = 1; i <= uc.getNumProvas(); i++)
+			{
+				tableHeadList.add("Prova " + i);
+			}
+			for(int i = 1; i <= uc.getNumTrabalhos(); i++)
+			{
+				tableHeadList.add("Trabalho " + i);
+			}
+			tableHeadList.add("Média");
+			
+			/* Alunos e notas (Bean) */
+			for (Aluno aluno : alunosDaUC) {
+				
+				double mediaProvas = 0.0, mediaTrabalhos = 0.0;
+				AlunoNotaBean alunoNotaAux = new AlunoNotaBean();
+				List<Nota> provasAluno = new ArrayList<Nota>();
+				List<Nota> trabalhosAluno = new ArrayList<Nota>();
+				List<String> notasString = new ArrayList<String>();
+				
+				alunoNotaAux.setIdAluno( aluno.getId() );
+				alunoNotaAux.setNomeAluno( aluno.getNome() );
+				
+				provasAluno = aluno.getProvasAluno(uc.getKey());
+				trabalhosAluno = aluno.getTrabalhosAluno(uc.getKey());
+				
+				for (Nota nota : provasAluno) {
+					notasString.add(decimalFormat.format(nota.getValor()));
+					mediaProvas += nota.getValor();
+				}
+				mediaProvas = (mediaProvas/provasAluno.size());
+				
+				for (Nota nota : trabalhosAluno) {
+					notasString.add(decimalFormat.format(nota.getValor()));
+					mediaTrabalhos += nota.getValor();
+				}
+				mediaTrabalhos = (mediaTrabalhos/trabalhosAluno.size());
+				
+				notasString.add(decimalFormat.format( (uc.getPesoProvas()*mediaProvas) + (uc.getPesoTrabalhos()*mediaTrabalhos)));
+				alunoNotaAux.setNotasAluno(notasString);
+				
+				alunoNotaBeans.add(alunoNotaAux);
+			}
+			
+			uiModel.addAttribute("tableHeadList", tableHeadList);
+			uiModel.addAttribute("alunoNotaBeans", alunoNotaBeans);
+			
 			return "listaNotas";
 		}
 	}

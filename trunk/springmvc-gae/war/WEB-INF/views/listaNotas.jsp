@@ -19,21 +19,21 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>Nome</th>
-							<c:forEach items="${notas}" var="nota">
-								<th>${nota.nome}</th>
+							<th>Aluno</th>
+							<c:forEach items="${tableHeadList}" var="nomeDaNota">
+								<th>${nomeDaNota}</th>
 							</c:forEach>
 						</tr>
 					</thead>
 					<c:forEach items="${alunoNotaBeans}" var="alunoNotaBean">
 						<tr>
 							<td>${alunoNotaBean.nomeAluno}</td>
-							
+							<c:forEach items="${alunoNotaBean.notasAluno}" var="nota">
+								<td>${nota}</td>
+							</c:forEach>
 						</tr>
 					</c:forEach>
 				</table>
-				<button id="salvarNotas" class="btn btn-success" style="width:100px">Salvar</button>
-			    <button id="Voltar" class="btn btn-warning" style="width:100px">Notas</button>
 			</div>
 	</form:form>
 </div>
