@@ -12,6 +12,7 @@ public class Nota implements Serializable{
 	@Id
 	private Long id;
 	private String nome;
+	private double valor;
 	Key<UC> idUC;
 	
 	public Nota() {}
@@ -37,6 +38,14 @@ public class Nota implements Serializable{
 		return id;
 	}
 	
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
 	public Key<UC> getIdUC() {
 		return idUC;
 	}
